@@ -1,0 +1,9 @@
+{
+	"name": "dfend2end",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e2194ec4-eb94-4699-a4b9-b6dd64dcb205",
+		"tenantId": "d618466b-9135-4eb8-9e0c-25bc2701ac2c"
+	}
+}
