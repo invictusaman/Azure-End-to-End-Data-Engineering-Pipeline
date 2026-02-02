@@ -1,5 +1,5 @@
 {
-	"name": "incremental_ingestion",
+	"name": "incremental_ingestion_with_backfiling",
 	"properties": {
 		"activities": [
 			{
@@ -110,7 +110,10 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"container": "bronze-end2end",
-							"folder": "CDC",
+							"folder": {
+								"value": "@{pipeline().parameters.table}_CDC",
+								"type": "Expression"
+							},
 							"file": "last_updated.json"
 						}
 					},
@@ -247,7 +250,10 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"container": "bronze-end2end",
-										"folder": "CDC",
+										"folder": {
+											"value": "@{pipeline().parameters.table}_CDC",
+											"type": "Expression"
+										},
 										"file": "empty.json"
 									}
 								}
@@ -258,7 +264,10 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"container": "bronze-end2end",
-										"folder": "CDC",
+										"folder": {
+											"value": "@{pipeline().parameters.table}_CDC",
+											"type": "Expression"
+										},
 										"file": "last_updated.json"
 									}
 								}
