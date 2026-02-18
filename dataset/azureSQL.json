@@ -1,0 +1,12 @@
+{
+	"name": "azureSQL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azure_end2end_con",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
