@@ -8,110 +8,211 @@
             name="description"
             content="Production-style Azure data pipeline — SQL Server to ADLS Gen2 via Medallion Architecture using ADF, Databricks, Delta Live Tables and Unity Catalog."
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,900;1,300&family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
         <style>
-            @import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600;700&display=swap");
+            :root {
+                --bg: #fafaf8;
+                --surface: #ffffff;
+                --ink: #111210;
+                --ink-mid: #3d3d38;
+                --ink-dim: #888880;
+                --rule: #e8e8e2;
 
-            * {
+                --brz: #b84c00;
+                --brz-bg: #fff8f2;
+                --brz-bdr: #f5c4a0;
+                --brz-tag: #fde8d4;
+
+                --slv: #1a5fa8;
+                --slv-bg: #f2f7fd;
+                --slv-bdr: #a8ccf0;
+                --slv-tag: #daeaf8;
+
+                --gld: #8a6000;
+                --gld-bg: #fdfbf0;
+                --gld-bdr: #e8d080;
+                --gld-tag: #faf3c0;
+
+                --accent: #1a5fa8;
+                --accent-lt: #eef5fd;
+                --accent-md: #a8ccf0;
+            }
+
+            *,
+            *::before,
+            *::after {
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
             }
 
+            html {
+                scroll-behavior: smooth;
+            }
+
             body {
-                background: #f0f4f8;
-                display: flex;
-                justify-content: center;
+                background: var(--bg);
+                color: var(--ink);
+                font-family: "Outfit", sans-serif;
                 min-height: 100vh;
-                font-family: "DM Sans", sans-serif;
-                padding: 48px 24px 64px;
+                padding: 0;
+                overflow-x: hidden;
             }
 
-            .wrapper {
-                width: 100%;
-                max-width: 1100px;
+            /* ── NOISE TEXTURE OVERLAY ──────────────── */
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+                pointer-events: none;
+                z-index: 0;
+                opacity: 0.4;
             }
 
-            /* ── TOP NAV ────────────────────────────── */
-            .topnav {
+            .page {
+                position: relative;
+                z-index: 1;
+                max-width: 1140px;
+                margin: 0 auto;
+                padding: 0 28px 80px;
+            }
+
+            /* ── TOP BAR ────────────────────────────── */
+            .topbar {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 48px;
+                padding: 24px 0 32px;
+                border-bottom: 1px solid var(--rule);
+                margin-bottom: 72px;
                 flex-wrap: wrap;
                 gap: 12px;
             }
-            .topnav-left {
-                font-family: "Space Mono", monospace;
-                font-size: 10px;
-                letter-spacing: 3px;
+            .topbar-brand {
+                font-family: "DM Mono", monospace;
+                font-size: 11px;
+                letter-spacing: 0.08em;
+                color: var(--ink-dim);
                 text-transform: uppercase;
-                color: #94a3b8;
             }
-            .topnav-left span {
-                color: #1d4ed8;
+            .topbar-brand strong {
+                color: var(--ink);
+                font-weight: 500;
             }
-            .github-btn {
+            .gh-btn {
                 display: inline-flex;
                 align-items: center;
-                gap: 8px;
-                background: #0f172a;
-                color: #f8fafc;
-                font-family: "DM Sans", sans-serif;
+                gap: 7px;
+                background: var(--ink);
+                color: #fff;
+                font-family: "Outfit", sans-serif;
                 font-size: 13px;
                 font-weight: 600;
-                padding: 9px 18px;
-                border-radius: 8px;
+                padding: 9px 20px;
+                border-radius: 6px;
                 text-decoration: none;
+                letter-spacing: 0.01em;
                 transition:
-                    background 0.2s,
-                    transform 0.2s;
-                border: none;
-                cursor: pointer;
+                    background 0.18s,
+                    transform 0.18s;
             }
-            .github-btn:hover {
-                background: #1e293b;
+            .gh-btn:hover {
+                background: #2a2a28;
                 transform: translateY(-1px);
             }
-            .github-btn svg {
-                flex-shrink: 0;
-            }
 
-            /* ── HEADER ─────────────────────────────── */
-            .header {
-                text-align: center;
-                margin-bottom: 52px;
+            /* ── HERO ───────────────────────────────── */
+            .hero {
+                margin-bottom: 80px;
             }
-            .eyebrow {
-                font-family: "Space Mono", monospace;
+            .hero-kicker {
+                font-family: "DM Mono", monospace;
                 font-size: 11px;
-                letter-spacing: 4px;
+                letter-spacing: 0.18em;
                 text-transform: uppercase;
-                color: #1d4ed8;
-                margin-bottom: 14px;
+                color: var(--accent);
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
             }
-            .header h1 {
-                font-size: clamp(24px, 3.5vw, 36px);
-                font-weight: 700;
-                color: #0f172a;
-                letter-spacing: -0.5px;
-                line-height: 1.2;
+            .hero-kicker::before {
+                content: "";
+                display: inline-block;
+                width: 28px;
+                height: 1px;
+                background: var(--accent);
             }
-            .header h1 span {
-                color: #1d4ed8;
+            .hero h1 {
+                font-family: "Fraunces", serif;
+                font-weight: 900;
+                font-size: clamp(36px, 5.5vw, 68px);
+                line-height: 1.05;
+                letter-spacing: -0.02em;
+                color: var(--ink);
+                margin-bottom: 8px;
             }
-            .header p {
-                margin-top: 12px;
-                font-size: 14px;
-                color: #475569;
+            .hero h1 em {
+                font-style: italic;
+                font-weight: 300;
+                color: var(--accent);
+            }
+            .hero-sub {
+                margin-top: 20px;
+                font-size: 16px;
+                color: var(--ink-mid);
+                font-weight: 400;
+                line-height: 1.6;
+                max-width: 620px;
+            }
+            .hero-pills {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 24px;
+            }
+            .hero-pill {
+                font-family: "DM Mono", monospace;
+                font-size: 10.5px;
+                letter-spacing: 0.06em;
+                padding: 5px 12px;
+                border-radius: 4px;
+                background: var(--accent-lt);
+                color: var(--accent);
+                border: 1px solid var(--accent-md);
             }
 
-            /* ── TOP SECTION ────────────────────────── */
-            .top-section {
+            /* ── PIPELINE SECTION ───────────────────── */
+            .section-label {
+                font-family: "DM Mono", monospace;
+                font-size: 10px;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--ink-dim);
+                margin-bottom: 32px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            .section-label::after {
+                content: "";
+                flex: 1;
+                height: 1px;
+                background: var(--rule);
+            }
+
+            /* ── TOP GRID (source above bronze) ─────── */
+            .top-grid {
                 display: grid;
-                grid-template-columns: 1fr 80px 1fr 80px 1fr;
+                grid-template-columns: 1fr 72px 1fr 72px 1fr;
                 margin-bottom: 0;
             }
-            .bronze-col-top {
+            .bronze-top {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -120,59 +221,58 @@
             /* ── SOURCE CARD ────────────────────────── */
             .source-card {
                 width: 100%;
-                background: #ffffff;
-                border: 2px solid #94a3b8;
-                border-radius: 16px;
-                padding: 20px 24px;
+                background: var(--surface);
+                border: 1.5px solid #c8c8c0;
+                border-radius: 14px;
+                padding: 22px 24px;
                 text-align: center;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+                box-shadow:
+                    0 2px 12px rgba(0, 0, 0, 0.06),
+                    0 0 0 4px rgba(0, 0, 0, 0.02);
                 transition:
                     box-shadow 0.25s,
                     transform 0.25s;
+                animation: fadeUp 0.5s ease both;
             }
             .source-card:hover {
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.11);
-                transform: translateY(-2px);
+                box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+                transform: translateY(-3px);
             }
-            .source-badge {
-                display: inline-block;
-                font-family: "Space Mono", monospace;
-                font-size: 10px;
-                letter-spacing: 2.5px;
+            .src-eyebrow {
+                font-family: "DM Mono", monospace;
+                font-size: 9.5px;
+                letter-spacing: 0.18em;
                 text-transform: uppercase;
-                color: #334155;
-                background: #f1f5f9;
-                border: 1px solid #94a3b8;
-                border-radius: 20px;
-                padding: 4px 12px;
+                color: var(--ink-dim);
                 margin-bottom: 10px;
             }
-            .source-title {
-                font-size: 19px;
-                font-weight: 700;
-                color: #0f172a;
+            .src-title {
+                font-family: "Fraunces", serif;
+                font-size: 22px;
+                font-weight: 600;
+                color: var(--ink);
                 margin-bottom: 4px;
             }
-            .source-sub {
-                font-family: "Space Mono", monospace;
-                font-size: 10.5px;
-                color: #64748b;
-                margin-bottom: 12px;
+            .src-sub {
+                font-family: "DM Mono", monospace;
+                font-size: 10px;
+                color: var(--ink-dim);
+                margin-bottom: 14px;
             }
-            .source-tags {
+            .src-tags {
                 display: flex;
                 flex-wrap: wrap;
                 gap: 6px;
                 justify-content: center;
             }
-            .source-tag {
+            .src-tag {
                 font-size: 12px;
                 font-weight: 500;
-                padding: 4px 12px;
-                border-radius: 20px;
-                background: #f1f5f9;
-                color: #334155;
-                border: 1px solid #94a3b8;
+                padding: 4px 11px;
+                border-radius: 4px;
+                background: #f4f4f0;
+                color: var(--ink-mid);
+                border: 1px solid #ddddd8;
             }
 
             /* ── DOWN ARROW ─────────────────────────── */
@@ -180,323 +280,371 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                gap: 0;
                 padding: 2px 0;
             }
-            .da-line {
-                width: 2px;
-                height: 22px;
-                background: linear-gradient(to bottom, #93c5fd, #1d4ed8);
+            .da-ln-t {
+                width: 1.5px;
+                height: 20px;
+                background: linear-gradient(
+                    to bottom,
+                    var(--accent-md),
+                    var(--accent)
+                );
             }
-            .da-line-bot {
-                width: 2px;
-                height: 22px;
-                background: linear-gradient(to bottom, #1d4ed8, #93c5fd);
+            .da-ln-b {
+                width: 1.5px;
+                height: 20px;
+                background: linear-gradient(
+                    to bottom,
+                    var(--accent),
+                    var(--accent-md)
+                );
             }
             .da-pill {
-                font-family: "Space Mono", monospace;
-                font-size: 9px;
-                letter-spacing: 1.5px;
+                font-family: "DM Mono", monospace;
+                font-size: 8.5px;
+                letter-spacing: 0.1em;
                 text-transform: uppercase;
-                color: #1d4ed8;
-                background: #eff6ff;
-                border: 1.5px solid #93c5fd;
-                border-radius: 4px;
-                padding: 4px 12px;
+                color: var(--accent);
+                background: var(--accent-lt);
+                border: 1px solid var(--accent-md);
+                border-radius: 3px;
+                padding: 4px 11px;
                 white-space: nowrap;
             }
             .da-head {
                 width: 0;
                 height: 0;
-                border-left: 6px solid transparent;
-                border-right: 6px solid transparent;
-                border-top: 9px solid #1d4ed8;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 8px solid var(--accent);
                 margin-top: -1px;
             }
 
             /* ── MEDALLION ROW ──────────────────────── */
-            .medallion-row {
+            .medallion {
                 display: grid;
-                grid-template-columns: 1fr 80px 1fr 80px 1fr;
+                grid-template-columns: 1fr 72px 1fr 72px 1fr;
                 align-items: start;
-                gap: 0;
             }
 
             /* ── H CONNECTOR ────────────────────────── */
-            .h-conn {
+            .hconn {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                padding-top: 58px;
+                padding-top: 56px;
                 gap: 6px;
-                min-width: 80px;
             }
-            .h-arrow {
+            .hc-row {
                 display: flex;
                 align-items: center;
                 width: 100%;
             }
-            .h-line {
+            .hc-line {
                 flex: 1;
-                height: 2px;
-                background: #1d4ed8;
+                height: 1.5px;
+                background: var(--accent);
             }
-            .h-head {
+            .hc-head {
                 width: 0;
                 height: 0;
-                border-top: 6px solid transparent;
-                border-bottom: 6px solid transparent;
-                border-left: 10px solid #1d4ed8;
+                border-top: 5px solid transparent;
+                border-bottom: 5px solid transparent;
+                border-left: 9px solid var(--accent);
             }
-            .h-label {
-                font-family: "Space Mono", monospace;
-                font-size: 8.5px;
-                letter-spacing: 1px;
+            .hc-label {
+                font-family: "DM Mono", monospace;
+                font-size: 8px;
+                letter-spacing: 0.08em;
                 text-transform: uppercase;
-                color: #1d4ed8;
+                color: var(--accent);
                 text-align: center;
-                line-height: 1.5;
+                line-height: 1.6;
             }
 
-            /* ── STAGE CARD ─────────────────────────── */
-            .stage {
-                border-radius: 16px;
-                padding: 22px 22px 20px;
-                border: 2px solid #e2e8f0;
-                background: #ffffff;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            /* ── LAYER CARD ─────────────────────────── */
+            .layer {
+                border-radius: 14px;
+                padding: 24px 22px 22px;
+                border: 1.5px solid var(--rule);
+                background: var(--surface);
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
                 transition:
                     box-shadow 0.25s,
                     transform 0.25s;
+                animation: fadeUp 0.5s ease both;
             }
-            .stage:hover {
-                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-                transform: translateY(-2px);
+            .layer:hover {
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.09);
+                transform: translateY(-3px);
             }
-            .stage-label {
-                font-family: "Space Mono", monospace;
-                font-size: 10px;
-                letter-spacing: 2.5px;
+            .layer-eye {
+                font-family: "DM Mono", monospace;
+                font-size: 9.5px;
+                letter-spacing: 0.18em;
                 text-transform: uppercase;
+                font-weight: 500;
                 margin-bottom: 10px;
                 display: flex;
                 align-items: center;
-                gap: 8px;
-                font-weight: 700;
+                gap: 7px;
             }
-            .stage-label::before {
+            .layer-eye::before {
                 content: "";
-                width: 7px;
-                height: 7px;
+                width: 6px;
+                height: 6px;
                 border-radius: 50%;
                 background: currentColor;
                 flex-shrink: 0;
             }
-            .stage-title {
-                font-size: 18px;
-                font-weight: 700;
-                margin-bottom: 5px;
+            .layer-title {
+                font-family: "Fraunces", serif;
+                font-size: 22px;
+                font-weight: 600;
+                margin-bottom: 4px;
             }
-            .stage-sub {
-                font-family: "Space Mono", monospace;
-                font-size: 10.5px;
-                color: #64748b;
+            .layer-sub {
+                font-family: "DM Mono", monospace;
+                font-size: 10px;
+                color: var(--ink-dim);
                 margin-bottom: 16px;
             }
             .tags {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 6px;
+                gap: 5px;
             }
             .tag {
-                font-size: 11.5px;
+                font-size: 12px;
                 font-weight: 500;
-                padding: 5px 11px;
-                border-radius: 20px;
-                border: 1.5px solid transparent;
+                padding: 4px 10px;
+                border-radius: 4px;
+                border: 1px solid transparent;
+                letter-spacing: 0.01em;
             }
 
-            /* WCAG layer colours */
+            /* Layer themes */
             .bronze {
-                border-color: #fdba74;
-                background: #fff7ed;
+                border-color: var(--brz-bdr);
+                background: var(--brz-bg);
             }
-            .bronze .stage-label {
-                color: #9a3412;
+            .bronze .layer-eye {
+                color: var(--brz);
             }
-            .bronze .stage-title {
-                color: #7c2d12;
+            .bronze .layer-title {
+                color: #6b2a00;
             }
             .bronze .tag {
-                background: #ffedd5;
-                color: #7c2d12;
-                border-color: #fb923c;
+                background: var(--brz-tag);
+                color: var(--brz);
+                border-color: var(--brz-bdr);
             }
 
             .silver {
-                border-color: #93c5fd;
-                background: #eff6ff;
+                border-color: var(--slv-bdr);
+                background: var(--slv-bg);
             }
-            .silver .stage-label {
-                color: #1e40af;
+            .silver .layer-eye {
+                color: var(--slv);
             }
-            .silver .stage-title {
-                color: #1e3a8a;
+            .silver .layer-title {
+                color: #0f3d6e;
             }
             .silver .tag {
-                background: #dbeafe;
-                color: #1e3a8a;
-                border-color: #60a5fa;
+                background: var(--slv-tag);
+                color: var(--slv);
+                border-color: var(--slv-bdr);
             }
 
             .gold {
-                border-color: #fcd34d;
-                background: #fffbeb;
+                border-color: var(--gld-bdr);
+                background: var(--gld-bg);
             }
-            .gold .stage-label {
-                color: #92400e;
+            .gold .layer-eye {
+                color: var(--gld);
             }
-            .gold .stage-title {
-                color: #78350f;
+            .gold .layer-title {
+                color: #5c3f00;
             }
             .gold .tag {
-                background: #fef3c7;
-                color: #78350f;
-                border-color: #f59e0b;
+                background: var(--gld-tag);
+                color: var(--gld);
+                border-color: var(--gld-bdr);
             }
 
             /* ── TECHNIQUES ─────────────────────────── */
-            .learned {
-                margin-top: 52px;
-                border-top: 2px solid #e2e8f0;
-                padding-top: 36px;
+            .techniques {
+                margin-top: 80px;
             }
-            .section-eyebrow {
-                font-family: "Space Mono", monospace;
-                font-size: 10px;
-                letter-spacing: 4px;
-                text-transform: uppercase;
-                color: #1d4ed8;
-                text-align: center;
-                margin-bottom: 24px;
-            }
-            .learned-grid {
+            .tc-grid {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-                gap: 14px;
+                grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+                gap: 16px;
             }
-            .lc {
-                background: #ffffff;
-                border: 1.5px solid #e2e8f0;
+            .tc {
+                background: var(--surface);
+                border: 1.5px solid var(--rule);
                 border-radius: 14px;
-                padding: 18px;
-                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+                padding: 20px 20px 18px;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
                 transition:
                     box-shadow 0.25s,
-                    transform 0.25s;
+                    transform 0.25s,
+                    border-color 0.25s;
+                animation: fadeUp 0.5s ease both;
             }
-            .lc:hover {
-                box-shadow: 0 5px 18px rgba(0, 0, 0, 0.09);
-                transform: translateY(-2px);
+            .tc:hover {
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+                transform: translateY(-3px);
+                border-color: var(--accent-md);
             }
-            .lc-icon {
-                font-size: 20px;
-                margin-bottom: 9px;
+            .tc-icon {
+                font-size: 22px;
+                margin-bottom: 10px;
             }
-            .lc-title {
-                font-size: 13px;
-                font-weight: 700;
-                color: #0f172a;
-                margin-bottom: 5px;
+            .tc-title {
+                font-family: "Fraunces", serif;
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--ink);
+                margin-bottom: 6px;
             }
-            .lc-desc {
-                font-size: 11.5px;
-                color: #475569;
-                line-height: 1.6;
+            .tc-desc {
+                font-size: 12.5px;
+                color: var(--ink-mid);
+                line-height: 1.65;
             }
 
             /* ── FOOTER ─────────────────────────────── */
             .footer {
-                margin-top: 40px;
-                text-align: center;
+                margin-top: 80px;
+                padding-top: 32px;
+                border-top: 1px solid var(--rule);
                 display: flex;
-                flex-direction: column;
+                justify-content: space-between;
                 align-items: center;
+                flex-wrap: wrap;
                 gap: 16px;
             }
             .footer-links {
                 display: flex;
-                gap: 16px;
+                gap: 12px;
                 flex-wrap: wrap;
-                justify-content: center;
             }
             .footer-link {
                 display: inline-flex;
                 align-items: center;
                 gap: 6px;
-                font-family: "DM Sans", sans-serif;
+                font-family: "Outfit", sans-serif;
                 font-size: 13px;
                 font-weight: 600;
-                color: #1d4ed8;
+                color: var(--accent);
                 text-decoration: none;
                 padding: 8px 16px;
-                border: 1.5px solid #bfdbfe;
-                border-radius: 8px;
-                background: #eff6ff;
+                border: 1.5px solid var(--accent-md);
+                border-radius: 6px;
+                background: var(--accent-lt);
                 transition:
                     background 0.2s,
-                    border-color 0.2s,
                     transform 0.2s;
             }
             .footer-link:hover {
-                background: #dbeafe;
-                border-color: #93c5fd;
+                background: var(--slv-tag);
                 transform: translateY(-1px);
             }
             .footer-copy {
-                font-family: "Space Mono", monospace;
+                font-family: "DM Mono", monospace;
                 font-size: 10px;
-                letter-spacing: 2.5px;
+                letter-spacing: 0.12em;
                 text-transform: uppercase;
-                color: #94a3b8;
+                color: var(--ink-dim);
             }
 
-            @media (max-width: 700px) {
-                .top-section,
-                .medallion-row {
+            /* ── ANIMATIONS ─────────────────────────── */
+            @keyframes fadeUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(16px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .layer:nth-child(1) {
+                animation-delay: 0.05s;
+            }
+            .layer:nth-child(3) {
+                animation-delay: 0.15s;
+            }
+            .layer:nth-child(5) {
+                animation-delay: 0.25s;
+            }
+            .tc:nth-child(1) {
+                animation-delay: 0.05s;
+            }
+            .tc:nth-child(2) {
+                animation-delay: 0.1s;
+            }
+            .tc:nth-child(3) {
+                animation-delay: 0.15s;
+            }
+            .tc:nth-child(4) {
+                animation-delay: 0.2s;
+            }
+            .tc:nth-child(5) {
+                animation-delay: 0.25s;
+            }
+            .tc:nth-child(6) {
+                animation-delay: 0.3s;
+            }
+            .tc:nth-child(7) {
+                animation-delay: 0.35s;
+            }
+            .tc:nth-child(8) {
+                animation-delay: 0.4s;
+            }
+            .tc:nth-child(9) {
+                animation-delay: 0.45s;
+            }
+
+            @media (max-width: 720px) {
+                .top-grid,
+                .medallion {
                     grid-template-columns: 1fr;
                 }
-                .h-conn {
+                .hconn {
                     display: none;
                 }
-                .stage {
+                .layer,
+                .source-card {
                     margin-bottom: 12px;
                 }
-                .topnav {
-                    justify-content: center;
-                    text-align: center;
+                .hero h1 {
+                    font-size: 36px;
                 }
             }
         </style>
     </head>
     <body>
-        <div class="wrapper">
-            <!-- TOP NAV -->
-            <div class="topnav">
-                <div class="topnav-left">
-                    <span>Aman Bhattarai</span> &nbsp;·&nbsp; Data Engineering
-                    Portfolio
+        <div class="page">
+            <!-- TOP BAR -->
+            <div class="topbar">
+                <div class="topbar-brand">
+                    <strong>Aman Bhattarai</strong> &nbsp;/&nbsp; Data
+                    Engineering Portfolio
                 </div>
                 <a
-                    class="github-btn"
-                    href="https://github.com/invictusaman/Azure_End2End_Project"
+                    class="gh-btn"
+                    href="https://github.com/invictusaman/Azure-End-to-End-Data-Engineering-Pipeline"
                     target="_blank"
                     rel="noopener"
                 >
                     <svg
-                        width="16"
-                        height="16"
+                        width="15"
+                        height="15"
                         viewBox="0 0 24 24"
                         fill="currentColor"
                     >
@@ -508,37 +656,48 @@
                 </a>
             </div>
 
-            <!-- HEADER -->
-            <div class="header">
-                <div class="eyebrow">
+            <!-- HERO -->
+            <div class="hero">
+                <div class="hero-kicker">
                     Azure Data Engineering · End-to-End Pipeline
                 </div>
                 <h1>
-                    SQL Server → ADLS Gen2 via
-                    <span>Medallion Architecture</span>
+                    SQL Server → ADLS Gen2<br />via
+                    <em>Medallion Architecture</em>
                 </h1>
-                <p>
-                    Azure Data Factory &nbsp;·&nbsp; Databricks &nbsp;·&nbsp;
-                    Delta Live Tables &nbsp;·&nbsp; Unity Catalog
+                <p class="hero-sub">
+                    A production-style pipeline ingesting operational data
+                    through Bronze, Silver and Gold layers using ADF watermark
+                    CDC, Databricks Auto Loader, and Delta Live Tables.
                 </p>
+                <div class="hero-pills">
+                    <span class="hero-pill">Azure Data Factory</span>
+                    <span class="hero-pill">Databricks</span>
+                    <span class="hero-pill">Delta Live Tables</span>
+                    <span class="hero-pill">Unity Catalog</span>
+                    <span class="hero-pill">Medallion Architecture</span>
+                </div>
             </div>
 
-            <!-- SOURCE above Bronze -->
-            <div class="top-section">
-                <div class="bronze-col-top">
+            <!-- PIPELINE -->
+            <div class="section-label">Pipeline Architecture</div>
+
+            <!-- Source above Bronze -->
+            <div class="top-grid">
+                <div class="bronze-top">
                     <div class="source-card">
-                        <div class="source-badge">⬡ Data Source</div>
-                        <div class="source-title">Azure SQL Server</div>
-                        <div class="source-sub">Relational OLTP database</div>
-                        <div class="source-tags">
-                            <span class="source-tag">Dimension Tables</span>
-                            <span class="source-tag">Fact Tables</span>
+                        <div class="src-eyebrow">Data Source</div>
+                        <div class="src-title">Azure SQL Server</div>
+                        <div class="src-sub">Relational OLTP database</div>
+                        <div class="src-tags">
+                            <span class="src-tag">Dimension Tables</span>
+                            <span class="src-tag">Fact Tables</span>
                         </div>
                     </div>
                     <div class="down-arrow">
-                        <div class="da-line"></div>
+                        <div class="da-ln-t"></div>
                         <div class="da-pill">ADF · CDC Incremental</div>
-                        <div class="da-line-bot"></div>
+                        <div class="da-ln-b"></div>
                         <div class="da-head"></div>
                     </div>
                 </div>
@@ -548,12 +707,12 @@
                 <div></div>
             </div>
 
-            <!-- MEDALLION: Bronze → Silver → Gold -->
-            <div class="medallion-row">
-                <div class="stage bronze">
-                    <div class="stage-label">Bronze Layer</div>
-                    <div class="stage-title">Raw Ingestion</div>
-                    <div class="stage-sub">ADLS Gen2 · Parquet</div>
+            <!-- Bronze → Silver → Gold -->
+            <div class="medallion">
+                <div class="layer bronze">
+                    <div class="layer-eye">Bronze Layer</div>
+                    <div class="layer-title">Raw Ingestion</div>
+                    <div class="layer-sub">ADLS Gen2 · Parquet</div>
                     <div class="tags">
                         <span class="tag">ForEach Activity</span>
                         <span class="tag">Watermark-based CDC</span>
@@ -563,18 +722,18 @@
                     </div>
                 </div>
 
-                <div class="h-conn">
-                    <div class="h-arrow">
-                        <div class="h-line"></div>
-                        <div class="h-head"></div>
+                <div class="hconn">
+                    <div class="hc-row">
+                        <div class="hc-line"></div>
+                        <div class="hc-head"></div>
                     </div>
-                    <div class="h-label">Auto Loader<br />cloudFiles</div>
+                    <div class="hc-label">Auto Loader<br />cloudFiles</div>
                 </div>
 
-                <div class="stage silver">
-                    <div class="stage-label">Silver Layer</div>
-                    <div class="stage-title">Stream Processing</div>
-                    <div class="stage-sub">ADLS Gen2 · Delta Tables</div>
+                <div class="layer silver">
+                    <div class="layer-eye">Silver Layer</div>
+                    <div class="layer-title">Stream Processing</div>
+                    <div class="layer-sub">ADLS Gen2 · Delta Tables</div>
                     <div class="tags">
                         <span class="tag">Structured Streaming</span>
                         <span class="tag">cloudFiles</span>
@@ -585,18 +744,18 @@
                     </div>
                 </div>
 
-                <div class="h-conn">
-                    <div class="h-arrow">
-                        <div class="h-line"></div>
-                        <div class="h-head"></div>
+                <div class="hconn">
+                    <div class="hc-row">
+                        <div class="hc-line"></div>
+                        <div class="hc-head"></div>
                     </div>
-                    <div class="h-label">DLT Pipeline<br />CDC Auto Flow</div>
+                    <div class="hc-label">DLT Pipeline<br />CDC Auto Flow</div>
                 </div>
 
-                <div class="stage gold">
-                    <div class="stage-label">Gold Layer</div>
-                    <div class="stage-title">Analytics Layer</div>
-                    <div class="stage-sub">ADLS Gen2 · Delta Tables</div>
+                <div class="layer gold">
+                    <div class="layer-eye">Gold Layer</div>
+                    <div class="layer-title">Analytics Layer</div>
+                    <div class="layer-sub">ADLS Gen2 · Delta Tables</div>
                     <div class="tags">
                         <span class="tag">Delta Live Tables</span>
                         <span class="tag">dlt.create_auto_cdc_flow()</span>
@@ -611,87 +770,87 @@
             </div>
 
             <!-- TECHNIQUES -->
-            <div class="learned">
-                <div class="section-eyebrow">
+            <div class="techniques">
+                <div class="section-label">
                     Techniques &amp; Concepts Applied
                 </div>
-                <div class="learned-grid">
-                    <div class="lc">
-                        <div class="lc-icon">⚡</div>
-                        <div class="lc-title">Watermark-based CDC</div>
-                        <div class="lc-desc">
+                <div class="tc-grid">
+                    <div class="tc">
+                        <div class="tc-icon">⚡</div>
+                        <div class="tc-title">Watermark-based CDC</div>
+                        <div class="tc-desc">
                             JSON state files track lastLoadTime per table — only
                             modified rows copied each run
                         </div>
                     </div>
 
-                    <div class="lc">
-                        <div class="lc-icon">🌊</div>
-                        <div class="lc-title">Structured Streaming</div>
-                        <div class="lc-desc">
+                    <div class="tc">
+                        <div class="tc-icon">🌊</div>
+                        <div class="tc-title">Structured Streaming</div>
+                        <div class="tc-desc">
                             Auto Loader with isolated read/write checkpoints for
                             fault-tolerant exactly-once delivery
                         </div>
                     </div>
 
-                    <div class="lc">
-                        <div class="lc-icon">🔺</div>
-                        <div class="lc-title">Delta Lake</div>
-                        <div class="lc-desc">
+                    <div class="tc">
+                        <div class="tc-icon">🔺</div>
+                        <div class="tc-title">Delta Lake</div>
+                        <div class="tc-desc">
                             ACID-compliant managed tables in Unity Catalog
                             across Silver and Gold layers
                         </div>
                     </div>
 
-                    <div class="lc">
-                        <div class="lc-icon">✅</div>
-                        <div class="lc-title">DLT Expectations</div>
-                        <div class="lc-desc">
+                    <div class="tc">
+                        <div class="tc-icon">✅</div>
+                        <div class="tc-title">DLT Expectations</div>
+                        <div class="tc-desc">
                             Declarative data quality rules enforced at staging —
                             invalid records dropped before Gold
                         </div>
                     </div>
 
-                    <div class="lc">
-                        <div class="lc-icon">🔄</div>
-                        <div class="lc-title">SCD Type 2</div>
-                        <div class="lc-desc">
+                    <div class="tc">
+                        <div class="tc-icon">🔄</div>
+                        <div class="tc-title">SCD Type 2</div>
+                        <div class="tc-desc">
                             Full change history on dimensions tracked via
                             __START_AT / __END_AT metadata
                         </div>
                     </div>
 
-                    <div class="lc">
-                        <div class="lc-icon">🧬</div>
-                        <div class="lc-title">Delta Live Tables</div>
-                        <div class="lc-desc">
+                    <div class="tc">
+                        <div class="tc-icon">🧬</div>
+                        <div class="tc-title">Delta Live Tables</div>
+                        <div class="tc-desc">
                             dlt.create_auto_cdc_flow() for declarative
                             CDC-driven MERGE pipeline management
                         </div>
                     </div>
 
-                    <div class="lc">
-                        <div class="lc-icon">📦</div>
-                        <div class="lc-title">Databricks Asset Bundle</div>
-                        <div class="lc-desc">
+                    <div class="tc">
+                        <div class="tc-icon">📦</div>
+                        <div class="tc-title">Databricks Asset Bundle</div>
+                        <div class="tc-desc">
                             Dev / prod deployment targets with source-linked
                             workspace deployment via YAML config
                         </div>
                     </div>
 
-                    <div class="lc">
-                        <div class="lc-icon">🧩</div>
-                        <div class="lc-title">Jinja Templating</div>
-                        <div class="lc-desc">
+                    <div class="tc">
+                        <div class="tc-icon">🧩</div>
+                        <div class="tc-title">Jinja Templating</div>
+                        <div class="tc-desc">
                             Dynamic multi-table SQL JOIN generation at runtime —
                             no hardcoded query logic
                         </div>
                     </div>
 
-                    <div class="lc">
-                        <div class="lc-icon">🔐</div>
-                        <div class="lc-title">Access Connector</div>
-                        <div class="lc-desc">
+                    <div class="tc">
+                        <div class="tc-icon">🔐</div>
+                        <div class="tc-title">Access Connector</div>
+                        <div class="tc-desc">
                             Credential-free identity-based auth between
                             Databricks and ADLS Gen2
                         </div>
@@ -704,13 +863,13 @@
                 <div class="footer-links">
                     <a
                         class="footer-link"
-                        href="https://github.com/invictusaman/Azure_End2End_Project"
+                        href="https://github.com/invictusaman/Azure-End-to-End-Data-Engineering-Pipeline"
                         target="_blank"
                         rel="noopener"
                     >
                         <svg
-                            width="14"
-                            height="14"
+                            width="13"
+                            height="13"
                             viewBox="0 0 24 24"
                             fill="currentColor"
                         >
@@ -718,7 +877,7 @@
                                 d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"
                             />
                         </svg>
-                        View Source on GitHub
+                        View Source
                     </a>
                     <a
                         class="footer-link"
@@ -727,12 +886,12 @@
                         rel="noopener"
                     >
                         <svg
-                            width="14"
-                            height="14"
+                            width="13"
+                            height="13"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
-                            stroke-width="2"
+                            stroke-width="2.2"
                             stroke-linecap="round"
                             stroke-linejoin="round"
                         >
@@ -745,8 +904,7 @@
                     </a>
                 </div>
                 <div class="footer-copy">
-                    Aman Bhattarai &nbsp;·&nbsp; Azure End-to-End Data
-                    Engineering
+                    Aman Bhattarai · Azure Data Engineering
                 </div>
             </div>
         </div>
