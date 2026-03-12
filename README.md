@@ -101,4 +101,4 @@ Built a **DLT pipeline** using `dlt.create_auto_cdc_flow()` to apply CDC-driven 
 
 ---
 
-![Azure Resource Group](screenshots/azure-resource-group.png)
+![Azure Resource Group](screenshots/azure-resource-group.jpeg)
